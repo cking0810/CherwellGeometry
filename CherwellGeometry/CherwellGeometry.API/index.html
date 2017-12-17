@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Cherwell Geometry</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+  <div id="findCoordinatesContainer">
+    <h2>Find Coordinates (1.A)</h2>
+    <input type="text" placeholder="Row (A-F)" id="row" size="6" />
+    <input type="text" placeholder="Column (1-12)" id="column" size="10" />
+    <input type="button" value="Find" id="btnFindCoordinates" />
+    <div id="findCoordinatesResults"></div>
+  </div>
+
+  <hr />
+
+  <div id="findRowAndColumnContainer">
+    <h2>Find Row and Column (1.B)</h2>
+    <input type="text" placeholder="Vertex 1 (X)" id="vertex1x" size="8" />
+    <input type="text" placeholder="Vertex 1 (Y)" id="vertex1y" size="8" />
+    <input type="text" placeholder="Vertex 2 (X)" id="vertex2x" size="8" />
+    <input type="text" placeholder="Vertex 2 (Y)" id="vertex2y" size="8" />
+    <input type="text" placeholder="Vertex 3 (X)" id="vertex3x" size="8" />
+    <input type="text" placeholder="Vertex 3 (Y)" id="vertex3y" size="8" />
+    <input type="button" value="Find" id="btnFindRowAndColumn" />
+    <div id="findRowAndColumnResults"></div>
+  </div>
+
+  <br />
+  <br />
+  <input type="button" value="Clear" id="btnClear" />
+
+  <script>
+    $(function () {
+
+      $('#btnFindCoordinates').on('click', function () {
+        var row = $('#row').val();
+        var column = $('#column').val();
+
+        $.ajax({
+          type: 'GET',
+          url: 'api/Triangle/GetCoordinates/' + row + '/' + column,
+          dataType: 'json',
+          success: function (data) {
+            if (!data) {
+              $("#findCoordinatesResults").text('no result found');
+            } else {
+              $("#findCoordinatesResults").text(
+                '(' + data.Vertex1.X + ', ' + data.Vertex1.Y + '), ' +
+                '(' + data.Vertex2.X + ', ' + data.Vertex2.Y + '), ' +
+                '(' + data.Vertex3.X + ', ' + data.Vertex3.Y + ')'
+              );
+            }
+          },
+          error: function () {
+            $("#findCoordinatesResults").text('no result found');
+          }
+        });
+      })
+
+      $('#btnFindRowAndColumn').on('click', function () {
+        var vertex1x = $('#vertex1x').val();
+        var vertex1y = $('#vertex1y').val();
+        var vertex2x = $('#vertex2x').val();
+        var vertex2y = $('#vertex2y').val();
+        var vertex3x = $('#vertex3x').val();
+        var vertex3y = $('#vertex3y').val();
+
+        $.ajax({
+          type: 'GET',
+          url: 'api/Triangle/GetLocation/' + vertex1x + '/' + vertex1y + '/' + vertex2x + '/' + vertex2y + '/' + vertex3x + '/' + vertex3y,
+          dataType: 'json',
+          success: function (data) {
+            if (!data) {
+              $("#findRowAndColumnResults").text('no result found');
+            } else {
+              $("#findRowAndColumnResults").text(data);
+            }
+          },
+          error: function () {
+            $("#findRowAndColumnResults").text('no result found');
+          }
+        });
+      })
+
+      $('#btnClear').on('click', function () {
+        $('input[type="text"]').val('');
+        $('#findCoordinatesResults').text('');
+        $('#findRowAndColumnResults').text('');
+      })
+
+
+      $("#findCoordinatesContainer input").keyup(function (event) {
+        if (event.keyCode === 13) {
+          $("#btnFindCoordinates").click();
+        }
+      });
+
+      $("#findRowAndColumnContainer input").keyup(function (event) {
+        if (event.keyCode === 13) {
+          $("#btnFindRowAndColumn").click();
+        }
+      });
+
+    })
+  </script>
+</body>
+</html>

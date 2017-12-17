@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/CherwellGeometry/CherwellGeometry.Tests/bin/Debug
+/CherwellGeometry/CherwellGeometry.Tests/obj/Debug
+/CherwellGeometry/CherwellGeometry.Core/bin/Debug
+/CherwellGeometry/CherwellGeometry.Core/obj/Debug
+/CherwellGeometry/CherwellGeometry.API/bin
+/CherwellGeometry/CherwellGeometry.API/obj/Debug
+/CherwellGeometry/.vs
+/CherwellGeometry/packages
